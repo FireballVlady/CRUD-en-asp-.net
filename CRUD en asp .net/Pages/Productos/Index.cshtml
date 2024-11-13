@@ -1,0 +1,69 @@
+﻿@page
+@model CRUD_en_asp_.net.Pages.Productos.IndexModel
+@{
+    ViewData["Title"] = "lista de Productos";
+}
+<h3 class="text-center">pagina de inicio</h3>
+
+
+@if (Model.Mensaje != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @Model.Mensaje
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="cart">
+    <div class="card-header bg-dark">
+        <div class="row">
+            <div class="col-sm-9">
+                <h2 class="text-info">Lista de Productos</h2>
+            </div>
+            <div class="col-sm-3">
+                <a asp-page="Crear" class="btn-primary"> Crear Nuevo Producto</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+        @if (Model.Productos.Count() > 0)
+        {
+            <br />
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>@Html.DisplayNameFor(m => m.Productos.First().Id)</th>
+                    <th>@Html.DisplayNameFor(m => m.Productos.First().NombreProducto)</th>
+                    <th>@Html.DisplayNameFor(m => m.Productos.First().Descripcion)</th>
+                    <th>@Html.DisplayNameFor(m => m.Productos.First().EndStock)</th>
+                    <th>@Html.DisplayNameFor(m => m.Productos.First().Precio)</th>
+                    <th>@Html.DisplayNameFor(m => m.Productos.First().FechaCreacion)</th>
+                    <th>Acciones</th>
+                </tr>
+                @foreach (var item in Model.Productos)
+                {
+                  <tr>
+                      <td>@Html.DisplayFor(m => item.Id)</td>
+                      <td>@Html.DisplayFor(m => item.NombreProducto)</td>
+                      <td>@Html.DisplayFor(m => item.Descripcion)</td>
+                      <td>@Html.DisplayFor(m => item.EndStock)</td>
+                      <td>@Html.DisplayFor(m => item.Precio)</td>
+                      <td>@Html.DisplayFor(m => item.FechaCreacion)</td>
+                      <td>
+                          <a asp-route-id="@item.Id" asp-page="Editar" class="btn btn-success btn-sm">Editar</a>
+                          <button asp-page-handler="Borrar" asp-route-id="@item.Id" onclick="return confirm('¿Esta seguro de querrer borrar el producto?')" class="btn btn-danger btn-sm">borrar</button>
+
+                      </td>
+                  </tr>
+                }
+                </table>
+            }
+            else
+            {
+                <p>No hay productos disponibles</p>       
+            }
+        </form>
+    </div>
+
+</div>
